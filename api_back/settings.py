@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app01.apps.App01Config',
     'user.apps.UserConfig',
+    'article.apps.ArticleConfig'
     'corsheaders',  # 解决api跨域请求
     'rest_framework',
     'rest_framework.authtoken',  # 设置token
@@ -131,7 +132,11 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'user.UserProfile'
 
 # django-rest-framework设置
+
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
+
     # 设置所有接口都需要被验证
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
