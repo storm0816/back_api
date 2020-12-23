@@ -1,0 +1,88 @@
+参考网页：
+https://www.jb51.net/article/165699.htm
+
+
+GET
+get请求中参数都会以http://xxx.com/api/getjson?param1=asdf&param2=123
+这样的形式拼接在url后面.
+在request对象中
+request.query_params 中可以获取?param1=32&param2=23形式的参数.
+request.query_params 返回的数据类型为QueryDict
+QueryDict转为普通python字典. query_params.dict()即可.
+
+
+POST
+post 请求参数都在请求体中, 但是其实你的url可以写成get的形式, 最终结果, 参数会有两部分组成, 一部分在url中, 一部分在http body 中, 但是非常不建议这样做.
+接下来的代码编写也不会考虑这样的情况, post 仅考虑所有参数都在http body 中的情况.
+
+提交类型	                                                                                        参数位置	                    参数类型
+form-data提交,	                                                                                参数在data中,	            类型为QueryDict
+application/json提交	                                                                        参数在data中	                类型为dict
+(swagger)使用接口文档提交, 由于使用curl提交, 虽然是post 但是参数依然被类似get的形式拼接到了url之后,	此时 参数在query_params 中	类型为 QueryDict
+x-www-form-urlencoded	                                                                        参数在data中	                类型为 QueryDict
+
+
+PUT
+提交类型	                参数位置	                    参数类型
+form-data	            request.data	            QueryDict
+application/json	    request.data	            dict
+x-www-form-urlencoded	request.data	            QueryDict
+(swagger)	            request.data	            dict
+
+PATCH
+
+提交类型	                参数位置	                参数类型
+form-data	            request.data	        QueryDict
+application/json	    request.data	        dict
+x-www-form-urlencoded	request.data	        QueryDict
+(swagger)	            request.data	        dict
+
+DELETE
+
+提交类型	                参数位置	                参数类型
+form-data	            request.data	        QueryDict
+application/json	    request.data	        dict
+x-www-form-urlencoded	request.data	        QueryDict
+(swagger)	            request.query_params	QueryDict
+iOS端提交和get情况一样	request.query_params	QueryDict
+
+
+编写参数统一处理的方法
+总结一下, 当url有?param=1&param=2这样的参数时忽略body中的参数, 例如get,delete提交,如果query_params有内容, 则忽略body内容. 将QueryDict转为dict返回, 再判断request.data中是否有内容, 类型如何.
+from django.http import QueryDict
+from rest_framework.request import Request
+def get_parameter_dic(request, *args, **kwargs):
+ if isinstance(request, Request) == False:
+ return {}
+
+ query_params = request.query_params
+ if isinstance(query_params, QueryDict):
+ query_params = query_params.dict()
+ result_data = request.data
+ if isinstance(result_data, QueryDict):
+ result_data = result_data.dict()
+
+ if query_params != {}:
+ return query_params
+ else:
+ return result_data
+
+
+ 使用方法
+ class ReturnJson(APIView):
+
+ coreapi_fields=(
+ DocParam("token"),
+ )
+
+ def get(self, request, *args, **kwargs):
+ params=get_parameter_dic(request)
+ return JsonResponse(data=params)
+
+ def post(self, request, *args, **kwargs):
+ params=get_parameter_dic(request)
+ return JsonResponse(data=params)
+
+ def put(self, request, *args, **kwargs):
+ params=get_parameter_dic(request)
+ return JsonResponse(data=params)

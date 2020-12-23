@@ -1,0 +1,36 @@
+参考：
+https://www.cnblogs.com/alice-bj/p/9579833.html#_label2
+
+
+
+python3 manage.py shell
+from users.models import UserProfile
+from django.contrib.auth.models import Group
+
+my_user = UserProfile.objects.get(id = 3)
+my_group = Group.objects.get(name='普通用户')
+
+添加用户到组
+第一种：
+
+user.groups.add(1) # add by id
+第二种：
+
+from django.contrib.auth.models import Group
+my_group = Group.objects.get(name='my_group_name')
+my_group.user_set.add(your_user)
+
+
+
+给组添加权限
+my_group = Group.objects.get(id=1)
+my_group.permissions.add(25)    auth_permission表中的权限id
+my_group.permissions.all()
+
+查询用户所有权限
+list(UserProfile.objects.get(id=3).get_all_permissions())
+['authtoken.add_token']
+
+view.py
+用户监测是否具有权限
+my_user.has_perm('frame.add_firstmenu')

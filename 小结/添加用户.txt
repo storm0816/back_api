@@ -1,0 +1,11 @@
+#默认系统
+from django.contrib.auth.models import User
+user = User.objects.create_user('yld', 'qq@163.com', '12345678')
+user.is_staff = True
+user.save()
+
+#修改过后
+from user.models import UserProfile as User
+user = User.objects.create_user('admin', 'qq@163.com', '123456')
+user.save()
+
