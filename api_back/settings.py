@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app01.apps.App01Config',
     'user.apps.UserConfig',
-    'article.apps.ArticleConfig'
+    'system.apps.SystemConfig',
+    'article.apps.ArticleConfig',
     'corsheaders',  # 解决api跨域请求
     'rest_framework',
-    'rest_framework.authtoken',  # 设置token
 ]
 
 MIDDLEWARE = [
@@ -139,10 +139,10 @@ REST_FRAMEWORK = {
 
     # 设置所有接口都需要被验证
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        #'extend.MyJWTAuthentication.MyJWTAuthentication',
+        # 'extend.MyJWTAuthentication.MyJWTAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
@@ -151,7 +151,7 @@ REST_FRAMEWORK = {
 
 from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=23),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,

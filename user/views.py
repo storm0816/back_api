@@ -7,6 +7,8 @@ from rest_framework_simplejwt import authentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from extend.MyJWTAuthentication import MyTokenViewBase
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 '''通过 jwt的obtain_jwt_token.as_view()  找到的ObtainJSONWebToken类，进行token登陆
 登陆'''
@@ -31,28 +33,16 @@ class TokenView(APIView):
 
 
 # 用户信息
-class UserInfo(APIView):
-    def get(self, request, *args, **kwargs, ):
-        User = get_user_model()
-        if request.method == 'GET':
-            print("in get")
-
-            token = request.headers.get('AUTHORIZATION')
-
-            token_msg=authentication.JWTAuthentication().get_validated_token(token)
-            print(token_msg)
-            user_object=authentication.JWTAuthentication().get_user(token_msg)
-            data = {"uid": user_object.id,
-                    "name": user_object.username,
-                     "first_name": user_object.first_name,
-                     "last_name": user_object.last_name,
-                     "avatar": user_object.avatar,
-                    #  "groups":user_object.groups,
-                     "roles": user_object.role,
-                     #"introduction": user_object.introduction
-            }
-            re_data = {"data": data,
-                        "code": 20000,
-                        "message": "success"
-            }
-            return JsonResponse(re_data)
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        print('authenticators:', request.authenticators)
+        print('successful_authenticator:', request.successful_authenticator)
+        print('authenticate: ', request.successful_authenticator.authenticate(request))
+        print('authenticate_header: ', request.successful_authenticator.authenticate_header(request))
+        print('get_header: ', request.successful_authenticator.get_header(request))
+        print('get_raw_token: ', request.successful_authenticator.get_raw_token(request.successful_authenticator.get_header(request)))
+        print('get_validated_token: ', request.successful_authenticator.get_validated_token(request.successful_authenticator.get_raw_token(request.successful_authenticator.get_header(request))))
+        print('get_user: ', request.successful_authenticator.get_user(request.successful_authenticator.get_validated_token(request.successful_authenticator.get_raw_token(request.successful_authenticator.get_header(request)))))
+        print('www_authenticate_realm: ', request.successful_authenticator.www_authenticate_realm)
+        return Response("OK")

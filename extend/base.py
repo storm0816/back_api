@@ -1,12 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time : 2020/7/15 16:58
-# @Author : Yld
-# @Site : 
-# @File : base.py
-# @Software: PyCharm
-
 from functools import wraps
+from jsonpath import jsonpath
+import json
 
 
 def method_decorator_adaptor(adapt_to, *decorator_args, **decorator_kwargs):
@@ -19,3 +13,23 @@ def method_decorator_adaptor(adapt_to, *decorator_args, **decorator_kwargs):
             return adaptor(*args, **kwargs)
         return decorator
     return decorator_outer
+
+
+def find(target, dictData, notFound='没找到'):
+    # ordereddict 有序字典
+    queue = dictData
+    for i in range(len(queue)):
+        data = queue[i]
+        code_list = jsonpath(data, '$..code')
+        if target in code_list:
+            return data
+    return notFound
+
+
+def abridge(dictData):
+    queue = dictData
+    for data in queue['children']:
+        # 清空按钮信息
+        if len(data['children']) > 0:
+            data['children'] = ''
+    return queue

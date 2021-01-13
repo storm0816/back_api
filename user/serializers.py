@@ -1,20 +1,33 @@
 from django.contrib.auth.models import Group
 from user.models import UserProfile as User
+from user.models import Role
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.settings import api_settings
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+class UserSerializer(serializers.ModelSerializer):
+    nickName = serializers.CharField(source='nickname')
+    isAccountNonExpired = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['url', 'username','password','first_name','last_name', 'groups','avatar','role']
+        fields = ['id', 'username', 'nickName', 'mobile', 'email', 'isAccountNonExpired']
+
+    def get_isAccountNonExpired(self, obj):
+        label = obj
+        if label.is_active:
+            return 1
+        else:
+            return 0
+
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
-        fields = ['url', 'name']
+        fields = ['id', 'name']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -36,6 +49,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         userInfo['last_name'] = self.user.last_name
         userInfo['avatar'] = self.user.avatar
         userInfo['roles'] = self.user.role
+        userInfo['mobile'] = self.user.mobile
         data['userInfo'] = userInfo
         re_data = dict()
         re_data['code'] = 20000
@@ -67,5 +81,11 @@ class MyTokenRefreshSerializer(TokenRefreshSerializer):
         re_data['data'] = data
         return re_data
 
+
+class RoleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Role
+        fields = ['id', 'name', 'remark']
 
 

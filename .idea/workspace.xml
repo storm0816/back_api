@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c7e9a943-c776-4138-9446-ad0195b723c1" name="Default Changelist" comment="" />
+    <list default="true" id="c7e9a943-c776-4138-9446-ad0195b723c1" name="Default Changelist" comment="system完成&#10;&#10;用户、角色、目录完成">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/article/migrations/0011_auto_20210113_0303.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/article/migrations/0012_auto_20210113_0303.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system/migrations/0006_auto_20210113_0303.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/migrations/0004_role.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3bf2ba04-1ac5-4dc2-8677-3060290ad47b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3bf2ba04-1ac5-4dc2-8677-3060290ad47b.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_back/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_back/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/article/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/article/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extend/CustomPage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/extend/MyJWTAuthentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/extend/MyJWTAuthentication.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extend/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/extend/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/system/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/system/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/system/urls/views_urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/system/urls/views_urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/system/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/system/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/urls/views_urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/urls/views_urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,22 +71,67 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/django_api_back" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dzh_back_api" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$" />
+      </set>
+    </option>
   </component>
   <component name="ProjectId" id="1lrC7nYZQzUdnFEFpDnSbjl5SBR" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/system" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/system" />
+      <recent name="$PROJECT_DIR$/article" />
+      <recent name="$PROJECT_DIR$/category" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Django server.api_back">
+    <configuration name="json2dict" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="api_back" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/小结" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/小结/json2dict.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="api_back" type="Python.DjangoServer" factoryName="Django server">
       <module name="api_back" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -88,6 +156,41 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="basepro" type="Python.DjangoServer" factoryName="Django server">
+      <module name="basepro" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="basepro.settings" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Django server.api_back" />
+      <item itemvalue="Django server.basepro" />
+      <item itemvalue="Python.json2dict" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.json2dict" />
+        <item itemvalue="Python.json2dict" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -113,53 +216,174 @@
       <updated>1608346091557</updated>
       <workItem from="1608346093381" duration="286000" />
       <workItem from="1608346390201" duration="151000" />
-      <workItem from="1608511696357" duration="13419000" />
+      <workItem from="1608511696357" duration="14486000" />
+      <workItem from="1608705922050" duration="26653000" />
+      <workItem from="1609116571420" duration="21865000" />
+      <workItem from="1609307292409" duration="34285000" />
+      <workItem from="1609988296489" duration="55130000" />
+      <workItem from="1610437238399" duration="7468000" />
     </task>
+    <task id="LOCAL-00001" summary="创建分类表">
+      <created>1608711636656</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1608711636656</updated>
+    </task>
+    <task id="LOCAL-00002" summary="blog_api">
+      <created>1609828152586</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1609828152586</updated>
+    </task>
+    <task id="LOCAL-00003" summary="system完成&#10;&#10;用户、角色、目录完成">
+      <created>1610497609996</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1610497609997</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="创建分类表" />
+    <MESSAGE value="blog_api" />
+    <MESSAGE value="system完成&#10;&#10;用户、角色、目录完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="system完成&#10;&#10;用户、角色、目录完成" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="104" y="59" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608346240832">
+    <state x="104" y="48" width="1071" height="752" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609378158527">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="104" y="59" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1608346240832" />
-    <state width="1238" height="212" key="GridCell.Tab.0.bottom" timestamp="1608683736335">
+    <state x="104" y="48" width="1071" height="752" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1609378158527" />
+    <state x="229" y="25" key="CommitChangelistDialog2" timestamp="1610518096421">
       <screen x="0" y="25" width="1280" height="703" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1608627181178" />
-    <state width="1238" height="212" key="GridCell.Tab.0.bottom/0.25.1280.702@0.25.1280.702" timestamp="1608628817180" />
-    <state width="1238" height="212" key="GridCell.Tab.0.bottom/0.25.1280.703@0.25.1280.703" timestamp="1608683736335" />
-    <state width="1238" height="212" key="GridCell.Tab.0.center" timestamp="1608683736334">
+    <state x="229" y="25" key="CommitChangelistDialog2/0.25.1280.702@0.25.1280.702" timestamp="1610497609145" />
+    <state x="229" y="25" key="CommitChangelistDialog2/0.25.1280.703@0.25.1280.703" timestamp="1610518096421" />
+    <state width="1280" height="438" key="DebuggerActiveHint" timestamp="1610430772071">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state width="1280" height="438" key="DebuggerActiveHint/0.25.1280.702@0.25.1280.702" timestamp="1610430772071" />
+    <state x="128" y="81" key="DiffContextDialog" timestamp="1608711600331">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state x="128" y="81" key="DiffContextDialog/0.25.1280.702@0.25.1280.702" timestamp="1608711600331" />
+    <state x="505" y="273" width="269" height="280" key="Github.ShareDialog" timestamp="1610518173733">
       <screen x="0" y="25" width="1280" height="703" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1608627181176" />
-    <state width="1238" height="212" key="GridCell.Tab.0.center/0.25.1280.702@0.25.1280.702" timestamp="1608628817179" />
-    <state width="1238" height="212" key="GridCell.Tab.0.center/0.25.1280.703@0.25.1280.703" timestamp="1608683736334" />
-    <state width="1238" height="212" key="GridCell.Tab.0.left" timestamp="1608683736333">
+    <state x="505" y="273" width="269" height="280" key="Github.ShareDialog/0.25.1280.702@0.25.1280.702" timestamp="1608711476065" />
+    <state x="505" y="273" key="Github.ShareDialog/0.25.1280.703@0.25.1280.703" timestamp="1610518173733" />
+    <state width="1238" height="199" key="GridCell.Tab.0.bottom" timestamp="1610506812886">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state width="1238" height="212" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1609378303983" />
+    <state width="1238" height="199" key="GridCell.Tab.0.bottom/0.25.1280.702@0.25.1280.702" timestamp="1610506812886" />
+    <state width="1238" height="235" key="GridCell.Tab.0.bottom/0.25.1280.703@0.25.1280.703" timestamp="1609988130866" />
+    <state width="1238" height="213" key="GridCell.Tab.0.bottom/0.25.1280.706@0.25.1280.706" timestamp="1610435515907" />
+    <state width="1238" height="199" key="GridCell.Tab.0.center" timestamp="1610506812885">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state width="1238" height="212" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1609378303982" />
+    <state width="1238" height="199" key="GridCell.Tab.0.center/0.25.1280.702@0.25.1280.702" timestamp="1610506812885" />
+    <state width="1238" height="235" key="GridCell.Tab.0.center/0.25.1280.703@0.25.1280.703" timestamp="1609988130865" />
+    <state width="1238" height="213" key="GridCell.Tab.0.center/0.25.1280.706@0.25.1280.706" timestamp="1610435515907" />
+    <state width="1238" height="199" key="GridCell.Tab.0.left" timestamp="1610506812885">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state width="1238" height="212" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1609378303981" />
+    <state width="1238" height="199" key="GridCell.Tab.0.left/0.25.1280.702@0.25.1280.702" timestamp="1610506812885" />
+    <state width="1238" height="235" key="GridCell.Tab.0.left/0.25.1280.703@0.25.1280.703" timestamp="1609988130865" />
+    <state width="1238" height="213" key="GridCell.Tab.0.left/0.25.1280.706@0.25.1280.706" timestamp="1610435515906" />
+    <state width="1238" height="199" key="GridCell.Tab.0.right" timestamp="1610506812886">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state width="1238" height="212" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1609378303982" />
+    <state width="1238" height="199" key="GridCell.Tab.0.right/0.25.1280.702@0.25.1280.702" timestamp="1610506812886" />
+    <state width="1238" height="235" key="GridCell.Tab.0.right/0.25.1280.703@0.25.1280.703" timestamp="1609988130866" />
+    <state width="1238" height="213" key="GridCell.Tab.0.right/0.25.1280.706@0.25.1280.706" timestamp="1610435515907" />
+    <state width="1238" height="213" key="GridCell.Tab.1.bottom" timestamp="1610435515911">
+      <screen x="0" y="25" width="1280" height="706" />
+    </state>
+    <state width="1238" height="213" key="GridCell.Tab.1.bottom/0.25.1280.702@0.25.1280.702" timestamp="1610431317628" />
+    <state width="1238" height="213" key="GridCell.Tab.1.bottom/0.25.1280.706@0.25.1280.706" timestamp="1610435515911" />
+    <state width="1238" height="213" key="GridCell.Tab.1.center" timestamp="1610435515909">
+      <screen x="0" y="25" width="1280" height="706" />
+    </state>
+    <state width="1238" height="213" key="GridCell.Tab.1.center/0.25.1280.702@0.25.1280.702" timestamp="1610431317627" />
+    <state width="1238" height="213" key="GridCell.Tab.1.center/0.25.1280.706@0.25.1280.706" timestamp="1610435515909" />
+    <state width="1238" height="213" key="GridCell.Tab.1.left" timestamp="1610435515908">
+      <screen x="0" y="25" width="1280" height="706" />
+    </state>
+    <state width="1238" height="213" key="GridCell.Tab.1.left/0.25.1280.702@0.25.1280.702" timestamp="1610431317627" />
+    <state width="1238" height="213" key="GridCell.Tab.1.left/0.25.1280.706@0.25.1280.706" timestamp="1610435515908" />
+    <state width="1238" height="213" key="GridCell.Tab.1.right" timestamp="1610435515909">
+      <screen x="0" y="25" width="1280" height="706" />
+    </state>
+    <state width="1238" height="213" key="GridCell.Tab.1.right/0.25.1280.702@0.25.1280.702" timestamp="1610431317628" />
+    <state width="1238" height="213" key="GridCell.Tab.1.right/0.25.1280.706@0.25.1280.706" timestamp="1610435515909" />
+    <state x="352" y="96" key="MultipleFileMergeDialog" timestamp="1610505493480">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state x="352" y="96" key="MultipleFileMergeDialog/0.25.1280.702@0.25.1280.702" timestamp="1610505493480" />
+    <state x="149" y="25" width="982" height="702" key="SettingsEditor" timestamp="1610517602678">
       <screen x="0" y="25" width="1280" height="703" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1608627181175" />
-    <state width="1238" height="212" key="GridCell.Tab.0.left/0.25.1280.702@0.25.1280.702" timestamp="1608628817179" />
-    <state width="1238" height="212" key="GridCell.Tab.0.left/0.25.1280.703@0.25.1280.703" timestamp="1608683736333" />
-    <state width="1238" height="212" key="GridCell.Tab.0.right" timestamp="1608683736334">
-      <screen x="0" y="25" width="1280" height="703" />
+    <state x="149" y="36" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1609384014163" />
+    <state x="149" y="25" width="982" height="702" key="SettingsEditor/0.25.1280.702@0.25.1280.702" timestamp="1610499529064" />
+    <state x="149" y="25" key="SettingsEditor/0.25.1280.703@0.25.1280.703" timestamp="1610517602678" />
+    <state x="149" y="25" width="982" height="706" key="SettingsEditor/0.25.1280.706@0.25.1280.706" timestamp="1608705285671" />
+    <state x="149" y="25" key="SettingsEditor/0.25.1280.708@0.25.1280.708" timestamp="1610515419156" />
+    <state x="240" y="113" key="Vcs.Push.Dialog.v2" timestamp="1610505400072">
+      <screen x="0" y="25" width="1280" height="702" />
     </state>
-    <state width="1238" height="212" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1608627181177" />
-    <state width="1238" height="212" key="GridCell.Tab.0.right/0.25.1280.702@0.25.1280.702" timestamp="1608628817180" />
-    <state width="1238" height="212" key="GridCell.Tab.0.right/0.25.1280.703@0.25.1280.703" timestamp="1608683736334" />
-    <state x="149" y="36" key="SettingsEditor" timestamp="1608514867566">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state x="240" y="113" key="Vcs.Push.Dialog.v2/0.25.1280.702@0.25.1280.702" timestamp="1610505400072" />
+    <state width="640" height="351" key="XDebugger.FullValuePopup" timestamp="1610430707255">
+      <screen x="0" y="25" width="1280" height="702" />
     </state>
-    <state x="149" y="36" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1608514867566" />
+    <state width="640" height="351" key="XDebugger.FullValuePopup/0.25.1280.702@0.25.1280.702" timestamp="1610430707255" />
+    <state x="538" y="275" width="345" height="226" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1610000043944">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state x="538" y="275" width="345" height="226" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.25.1280.702@0.25.1280.702" timestamp="1610000043944" />
     <state x="378" y="185" key="com.intellij.database.dbimport.ImportUtil.MyDialog" timestamp="1608691555829">
       <screen x="0" y="25" width="1280" height="703" />
     </state>
     <state x="378" y="185" key="com.intellij.database.dbimport.ImportUtil.MyDialog/0.25.1280.703@0.25.1280.703" timestamp="1608691555829" />
-    <state x="317" y="229" key="com.intellij.ide.util.TipDialog" timestamp="1608511697285">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state x="100" y="125" width="1080" height="502" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1610506468305">
+      <screen x="0" y="25" width="1280" height="702" />
     </state>
-    <state x="317" y="229" key="com.intellij.ide.util.TipDialog/0.0.1280.800@0.0.1280.800" timestamp="1608511697285" />
+    <state x="100" y="125" width="1080" height="502" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.25.1280.702@0.25.1280.702" timestamp="1610506468305" />
+    <state x="100" y="125" width="1080" height="502" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1610507065411">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state x="100" y="125" width="1080" height="502" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.25.1280.702@0.25.1280.702" timestamp="1610507065411" />
+    <state x="100" y="125" width="1080" height="502" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1610505938054">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state x="100" y="125" width="1080" height="502" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.25.1280.702@0.25.1280.702" timestamp="1610505938054" />
+    <state x="317" y="226" key="com.intellij.ide.util.TipDialog" timestamp="1610437238559">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state x="317" y="229" key="com.intellij.ide.util.TipDialog/0.0.1280.800@0.0.1280.800" timestamp="1609116572190" />
+    <state x="317" y="226" key="com.intellij.ide.util.TipDialog/0.25.1280.702@0.25.1280.702" timestamp="1610437238559" />
+    <state x="317" y="226" key="com.intellij.ide.util.TipDialog/0.25.1280.703@0.25.1280.703" timestamp="1608705922508" />
+    <state x="426" y="297" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1608711673166">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state x="426" y="297" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1280.702@0.25.1280.702" timestamp="1608711673166" />
+    <state x="391" y="93" key="git4idea.branch.GitSmartOperationDialog" timestamp="1610505486411">
+      <screen x="0" y="25" width="1280" height="702" />
+    </state>
+    <state x="391" y="93" key="git4idea.branch.GitSmartOperationDialog/0.25.1280.702@0.25.1280.702" timestamp="1610505486411" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/api_back$json2dict.coverage" NAME="json2dict Coverage Results" MODIFIED="1609292151695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/小结" />
   </component>
 </project>
