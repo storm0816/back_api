@@ -21,6 +21,7 @@ urlpatterns = [
     path('user/', include('user.urls.views_urls', namespace='user')),
     path('system/', include('system.urls.views_urls', namespace='system')),
     path('article/', include('article.urls.views_urls', namespace='article')),
+    path('assets/', include('assets.urls.views_urls', namespace='assets')),
 
 
 ]

@@ -2,16 +2,15 @@ from django.shortcuts import render
 from rest_framework_jwt.views import APIView
 from django.http import JsonResponse
 from extend.MyPageNumber import MyPageNumber
-from .models import Category, Label, Article
-from .serializers import CategorySerializer, LabelSerializer, CategoryLabelListSerializer, ArticleSearchSerializer, ArticleSerializer
+from .models import Item, Function, Asset
+from .serializers import ItemSerializer, FunctionSerializer, ItemFunctionListSerializer, AssetSerializer
 #处理put请求
 from django.http import QueryDict
-
 # Create your views here.
 
 
-# 查询分类列表
-class CategorySearchView(APIView):
+# 查询项目列表
+class ItemSearchView(APIView):
 
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
@@ -29,24 +28,24 @@ class CategorySearchView(APIView):
             # 前端查询字段为name
             if 'name' in request.data:
                 if 'status' in request.data:
-                    category_list = Category.objects.filter(name__contains=request.data['name'],
+                    item_list = Item.objects.filter(name__icontains=request.data['name'],
                                                             status=request.data['status']).order_by("id")
                 else:
-                    category_list = Category.objects.filter(name__contains=request.data['name']).order_by("id")
+                    item_list = Item.objects.filter(name__icontains=request.data['name']).order_by("id")
 
             else:
                 if 'status' in request.data:
-                    category_list = Category.objects.filter(status=request.data['status']).order_by("id")
+                    item_list = Item.objects.filter(status=request.data['status']).order_by("id")
                 else:
-                    category_list = Category.objects.all().order_by("id")
+                    item_list = Item.objects.all().order_by("id")
             # 将自选写入params中
             request.query_params.setlist('current', [current])
             request.query_params.setlist('size', [size])
             # 总数
-            total = category_list.count()
+            total = item_list.count()
             page = MyPageNumber()
-            page_category = page.paginate_queryset(queryset=category_list, request=request, view=self)
-            category_ser = CategorySerializer(instance=page_category, many=True)
+            page_category = page.paginate_queryset(queryset=item_list, request=request, view=self)
+            category_ser = ItemSerializer(instance=page_category, many=True)
             print(category_ser.data)
             re_data['data']['total'] = total
             re_data['data']['records'] = category_ser.data
@@ -57,21 +56,20 @@ class CategorySearchView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-# 添加修改分类信息
-class CategoryAddUpdateView(APIView):
+# 添加修改项目信息
+class ItemAddUpdateView(APIView):
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
                    "message": "添加成功"
                    }
         msg = "添加失败，参数异常"
-        if 'sort' in request.data and 'name' in request.data and 'status' in request.data:
-            sort = request.data['sort']
-            name = request.data['name']
-            status = request.data['status']
-            remark = request.data['remark']
+        if 'name' in request.data and 'status' in request.data:
+            name = request.data.get('name', None)
+            status = request.data.get('status', None)
+            remark = request.data.get('remark', None)
             try:
-                sql = Category.objects.create(name=name, status=status, sort=sort, remark=remark)
+                sql = Item.objects.create(name=name, status=status, remark=remark)
                 sql.save()
             except Exception as ex:
                 msg = "添加失败: {ex}".format(ex=ex)
@@ -91,16 +89,15 @@ class CategoryAddUpdateView(APIView):
         put = QueryDict(request.body)
         put_str = list(put.items())[0][0]  # 将获取的QueryDict对象转换为str 类型
         put_dict = eval(put_str)  # 将str类型转换为字典类型
-        if 'sort' in request.data and 'name' in request.data and 'status' in request.data and 'id' in request.data:
+        if 'name' in request.data and 'status' in request.data and 'id' in request.data:
             id = put_dict.get("id")  # 获取传递参数
             print('更新ID：', id)
-            sort = put_dict.get("sort")
-            name = put_dict.get("name")
-            status = put_dict.get("status")
-            remark = put_dict.get("remark")
+            name = put_dict.get("name", None)
+            status = put_dict.get("status", None)
+            remark = put_dict.get("remark", None)
             # 更新数据
             try:
-                Category.objects.filter(pk=id).update(name=name, status=status, sort=sort, remark=remark)
+                Item.objects.filter(pk=id).update(name=name, status=status, remark=remark)
             except Exception as ex:
                 msg = "更新失败: {ex}".format(ex=ex)
                 re_data['code'] = 40000
@@ -113,8 +110,8 @@ class CategoryAddUpdateView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-# 查询分类信息
-class CategoryGetDelView(APIView):
+# 查询删除项目信息
+class ItemGetDelView(APIView):
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -122,9 +119,9 @@ class CategoryGetDelView(APIView):
                    }
         print('查询ID：', id)
         try:
-            category_list = Category.objects.filter(pk=id).first()
-            category_ser = CategorySerializer(category_list)
-            re_data['data'] = category_ser.data
+            item_list = Item.objects.filter(pk=id).first()
+            item_list_ser = ItemSerializer(item_list)
+            re_data['data'] = item_list_ser.data
         except Exception as ex:
             msg = "查询失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
@@ -138,7 +135,7 @@ class CategoryGetDelView(APIView):
                    "message": "删除成功"
                    }
         try:
-            Category.objects.filter(pk=id).delete()
+            Item.objects.filter(pk=id).delete()
         except Exception as ex:
             msg = "删除失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
@@ -146,8 +143,26 @@ class CategoryGetDelView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-#查询标签列表
-class LabelSearchView(APIView):
+# 查询所有正常状态的项目
+class ItemListView(APIView):
+    def get(self, request, *args, **kwargs):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "查询成功"
+                   }
+        try:
+            item_list = Item.objects.filter(status=1).order_by("id")
+            item_ser = ItemSerializer(instance=item_list, many=True)
+            re_data['data'] = item_ser.data
+        except Exception as ex:
+            msg = "查询失败: {ex}".format(ex=ex)
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
+
+
+#查询功能列表
+class FunctionSearchView(APIView):
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -159,31 +174,31 @@ class LabelSearchView(APIView):
             request.query_params._mutable = True
             current = request.data['current']
             size = request.data['size']
-            print('查询所有数据')
-            # 判断前端是否传了搜索字段
-            # 前端查询字段为name
-            if 'name' in request.data:
-                if 'categoryName' in request.data:
-                    lable_list = Label.objects.filter(name__contains=request.data['name'],
-                                                            categoryId=request.data['categoryId']).order_by("id")
+            name = request.data.get('name', None)
+            itemId = request.data.get('itemId', None)
+            if name:
+                if itemId:
+                    function_list = Function.objects.filter(name__contains=request.data['name'],
+                                                            itemId=request.data['itemId']).order_by("id")
                 else:
-                    lable_list = Label.objects.filter(name__contains=request.data['name']).order_by("id")
+                    function_list = Function.objects.filter(name__contains=request.data['name']).order_by("id")
 
             else:
-                if 'categoryId' in request.data:
-                    lable_list = Label.objects.filter(categoryId=request.data['categoryId']).order_by("id")
+                if itemId:
+                    function_list = Function.objects.filter(itemId=request.data['itemId']).order_by("id")
                 else:
-                    lable_list = Label.objects.all().order_by("id")
+                    function_list = Function.objects.all().order_by("id")
+
             # 将自选写入params中
             request.query_params.setlist('current', [current])
             request.query_params.setlist('size', [size])
             # 总数
-            total = lable_list.count()
+            total = function_list.count()
             page = MyPageNumber()
-            page_Lable = page.paginate_queryset(queryset=lable_list, request=request, view=self)
-            lable_ser = LabelSerializer(instance=page_Lable, many=True)
+            page_Lable = page.paginate_queryset(queryset=function_list, request=request, view=self)
+            function_ser = FunctionSerializer(instance=page_Lable, many=True)
             re_data['data']['total'] = total
-            re_data['data']['records'] = lable_ser.data
+            re_data['data']['records'] = function_ser.data
         else:
             re_data['code'] = 40000
             re_data['message'] = '查询失败'
@@ -191,39 +206,22 @@ class LabelSearchView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-# 查询所有正常状态的分类
-class CategoryListView(APIView):
-    def get(self, request, *args, **kwargs):
-        re_data = {"data": {},
-                   "code": 20000,
-                   "message": "查询成功"
-                   }
-        try:
-            category_list = Category.objects.all().order_by("id")
-            category_ser = CategorySerializer(instance=category_list, many=True)
-            re_data['data'] = category_ser.data
-        except Exception as ex:
-            msg = "查询失败: {ex}".format(ex=ex)
-            re_data['code'] = 40000
-            re_data['message'] = msg
-        return JsonResponse(re_data, safe=False)
-
-
 # 添加修改标签信息
-class LabelAddUpdateView(APIView):
+class FunctionAddUpdateView(APIView):
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
                    "message": "添加成功"
                    }
         msg = "添加失败，参数异常"
-        if 'name' in request.data and 'categoryId' in request.data:
-            print('添加标签', id)
-            categoryId = request.data['categoryId']
-            name = request.data['name']
+        if 'name' in request.data and 'itemId' in request.data:
+            print('添加功能', id)
+            name = request.data.get('name', None)
+            itemId = request.data.get('itemId', None)
+            path = request.data.get('path', None)
             try:
-                category = Category.objects.filter(pk=categoryId).first()
-                sql = Label.objects.create(name=name, categoryId=category)
+                item = Item.objects.filter(pk=itemId).first()
+                sql = Function.objects.create(name=name, itemId=item, path=path)
                 sql.save()
             except Exception as ex:
                 msg = "添加失败: {ex}".format(ex=ex)
@@ -244,15 +242,15 @@ class LabelAddUpdateView(APIView):
         # put = QueryDict(request.body)
         # put_str = list(put.items())[0][0]  # 将获取的QueryDict对象转换为str 类型
         # put_dict = eval(put_str)  # 将str类型转换为字典类型
-        if 'name' in request.data and 'categoryId' in request.data:
-            print('更新标签：',id)
+        if 'name' in request.data and 'itemId' in request.data:
             id = request.data['id'] # 获取传递参数
             name = request.data['name']
-            categoryId = request.data['categoryId']
+            itemId = request.data['itemId']
+            path = request.data.get('path', None)
             # 更新数据
             try:
-                category = Category.objects.filter(pk=categoryId).first()
-                Label.objects.filter(pk=id).update(name=name, categoryId=category)
+                item = Item.objects.filter(pk=itemId).first()
+                Function.objects.filter(pk=id).update(name=name, itemId=item, path=path)
             except Exception as ex:
                 msg = "更新失败: {ex}".format(ex=ex)
                 re_data['code'] = 40000
@@ -265,8 +263,8 @@ class LabelAddUpdateView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-# 查询删除标签信息
-class LabelGetDelView(APIView):
+# 查询删除功能信息
+class FunctionGetDelView(APIView):
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -274,9 +272,9 @@ class LabelGetDelView(APIView):
                    }
         print('查询标签ID：', id)
         try:
-            label_list = Label.objects.filter(pk=id).first()
-            label_ser = LabelSerializer(label_list)
-            re_data['data'] = label_ser.data
+            function_list = Function.objects.filter(pk=id).first()
+            function_ser = FunctionSerializer(function_list)
+            re_data['data'] = function_ser.data
         except Exception as ex:
             msg = "查询失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
@@ -291,7 +289,7 @@ class LabelGetDelView(APIView):
                    }
         try:
 
-            Label.objects.filter(pk=id).delete()
+            Function.objects.filter(pk=id).delete()
         except Exception as ex:
             msg = "删除失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
@@ -299,8 +297,8 @@ class LabelGetDelView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-# 查询所有正常分类和标签
-class CategoryLabelListView(APIView):
+# 查询所有正常项目和功能
+class ItemFunctionListView(APIView):
     def get(self, request,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -308,9 +306,9 @@ class CategoryLabelListView(APIView):
                    }
         print('正常分类和标签')
         try:
-            category_list = Category.objects.all()
-            category_ser = CategoryLabelListSerializer(category_list, many=True)
-            re_data['data'] = category_ser.data
+            item_list = Item.objects.all()
+            item_ser = ItemFunctionListSerializer(item_list, many=True)
+            re_data['data'] = item_ser.data
         except Exception as ex:
             msg = "查询失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
@@ -318,65 +316,134 @@ class CategoryLabelListView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-#查询文章列表
-class ArticleSearchView(APIView):
-    def post(self, request, *args, **kwargs):
+# 查询谁被列表
+class AssetSearchView(APIView):
+
+    def post(self, request,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
                    "message": "查询成功"
                    }
+        '''
+        { code: 1, name: '设备名称' },
+        { code: 2, name: '内网IP' },
+        { code: 3, name: '外网IP' },
+        '''
+        query_select = {1: 'hostname__contains', 2: 'lanip__contains', 3: 'wanip__contains'}
         print(request.data)
         if 'current' in request.data and 'size' in request.data:
             # params修改为可写状态
             request.query_params._mutable = True
             current = request.data['current']
             size = request.data['size']
-            print('查询所有数据')
-            # 判断前端是否传了搜索字段
-            # 前端查询字段为name
-            if 'title' in request.data:
-                if 'status' in request.data:
-                    article_list = Article.objects.filter(title__contains=request.data['title'],
-                                                            status=request.data['status']).order_by("id")
-                else:
-                    article_list = Article.objects.filter(title__contains=request.data['title']).order_by("id")
-
+            select = request.data.get('select', None)
+            name = request.data.get('name', None)
+            itemId = request.data.get('itemId', None)
+            status = request.data.get('status', None)
+            search_dict = dict()
+            if select:
+                search_dict[query_select[select]] = name
+            if itemId:
+                search_dict['itemId'] = itemId
+            if status:
+                search_dict['status'] = status
+            if select or itemId or status:
+                asset_query = Asset.objects.filter(**search_dict).order_by("id")
             else:
-                if 'status' in request.data:
-                    article_list = Article.objects.filter(status=request.data['status']).order_by("id")
-                else:
-                    article_list = Article.objects.all().order_by("id")
+                asset_query = Asset.objects.all().order_by("id")
             # 将自选写入params中
             request.query_params.setlist('current', [current])
             request.query_params.setlist('size', [size])
             # 总数
-            total = article_list.count()
+            total = asset_query.count()
             page = MyPageNumber()
-            page_Lable = page.paginate_queryset(queryset=article_list, request=request, view=self)
-            article_ser = ArticleSearchSerializer(instance=page_Lable, many=True)
+            page_Lable = page.paginate_queryset(queryset=asset_query, request=request, view=self)
+            asset_ser = AssetSerializer(instance=page_Lable, many=True)
             re_data['data']['total'] = total
-            re_data['data']['records'] = article_ser.data
+            re_data['data']['records'] = asset_ser.data
         else:
             re_data['code'] = 40000
             re_data['message'] = '查询失败'
-
         return JsonResponse(re_data, safe=False)
 
 
-# 查询删除文章信息
-class ArticleDetailView(APIView):
+# 添加修改设备信息
+class AssetAddUpdateView(APIView):
+    def post(self, request, *args, **kwargs):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "添加成功"
+                   }
+        msg = "添加失败，参数异常"
+        print(request.data)
+        if 'hostname' in request.data and 'lanip' in request.data and 'status' in request.data:
+            hostname = request.data.get('hostname', None)
+            lanip = request.data.get('lanip', None)
+            wanip = request.data.get('wanip', None)
+            status = request.data.get('status', None)
+            functionIds = request.data.get('functionIds', None)
+            itemId = request.data.get('itemId', None)
+            summary = request.data.get('summary', None)
+            try:
+                item_query = Item.objects.filter(pk=itemId).first()
+                sql = Asset.objects.create(hostname=hostname, lanip=lanip,wanip=wanip, status=status, functionIds=functionIds, summary=summary, itemId=item_query)
+                sql.save()
+            except Exception as ex:
+                msg = "添加失败: {ex}".format(ex=ex)
+                print(msg)
+                re_data['code'] = 40000
+                re_data['message'] = msg
+        else:
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
 
+    def put(self, request, *args, **kwargs):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "添加成功"
+                   }
+        msg = "更新成功"
+        # put = QueryDict(request.body)
+        # put_str = list(put.items())[0][0]  # 将获取的QueryDict对象转换为str 类型
+        # put_dict = eval(put_str)  # 将str类型转换为字典类型
+        if 'hostname' in request.data and 'lanip' in request.data and 'status' in request.data:
+            id = request.data['id']
+            hostname = request.data.get('hostname', None)
+            lanip = request.data.get('lanip', None)
+            wanip = request.data.get('wanip', None)
+            status = request.data.get('status', None)
+            functionIds = request.data.get('functionIds', None)
+            itemId = request.data.get('itemId', None)
+            summary = request.data.get('summary', None)
+            # 更新数据
+            try:
+                item_query = Item.objects.filter(pk=itemId).first()
+                Asset.objects.filter(pk=id).update(hostname=hostname, lanip=lanip, wanip=wanip, status=status,
+                                           functionIds=functionIds, summary=summary, itemId=item_query)
+            except Exception as ex:
+                msg = "更新失败: {ex}".format(ex=ex)
+                re_data['code'] = 40000
+            re_data['message'] = msg
+            return JsonResponse(re_data, safe=False)
+        else:
+            msg = '更新失败，参数异常'
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
+
+
+# 获取删除设备信息
+class AssetGetDelView(APIView):
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
                    "message": "查询成功"
                    }
-        print('查询文章ID：', id)
         try:
-            article_list = Article.objects.filter(pk=id).first()
-            article_ser = ArticleSerializer(article_list)
-            print(article_ser.data)
-            re_data['data'] = article_ser.data
+            asset_query = Asset.objects.filter(pk=id).first()
+            asset_ser = AssetSerializer(asset_query)
+            re_data['data'] = asset_ser.data
         except Exception as ex:
             msg = "查询失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
@@ -384,19 +451,14 @@ class ArticleDetailView(APIView):
         return JsonResponse(re_data, safe=False)
 
     def delete(self, request, id,  *args, **kwargs,):
-        print('标签删除:', id)
         re_data = {"data": {},
                    "code": 20000,
                    "message": "删除成功"
                    }
         try:
-
-            Label.objects.filter(pk=id).delete()
+            Asset.objects.filter(pk=id).delete()
         except Exception as ex:
             msg = "删除失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
-
-
-
