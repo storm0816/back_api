@@ -68,11 +68,11 @@ class Asset(models.Model):
 
 # 域名表
 class Domain(models.Model):
-    name = models.CharField(max_length=128, unique=True, verbose_name='功能名')
+    name = models.CharField(max_length=128, unique=True, verbose_name='域名')
     itemId = models.ForeignKey(to=Item, verbose_name="项目ID", on_delete=models.CASCADE)
     cname = models.CharField(max_length=128, blank=True, null=True, verbose_name='CNAME')
     elb = models.CharField(max_length=128, blank=True, null=True, verbose_name='负载均衡')
-    assetIds = models.CharField(max_length=128, blank=True, null=True, verbose_name='设备列')
+    assetIds = models.CharField(max_length=128, default=[], verbose_name='设备列')
     remark = models.TextField(verbose_name="备注", blank=True, null=True)
     createDate = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     updateDate = models.DateTimeField(auto_now=True, verbose_name='最后更新时间')

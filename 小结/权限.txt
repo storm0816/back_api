@@ -4,7 +4,7 @@ https://www.cnblogs.com/alice-bj/p/9579833.html#_label2
 
 
 python3 manage.py shell
-from users.models import UserProfile
+from user.models import UserProfile
 from django.contrib.auth.models import Group
 
 my_user = UserProfile.objects.get(id = 3)
@@ -24,11 +24,11 @@ my_group.user_set.add(your_user)
 
 给组添加权限
 my_group = Group.objects.get(id=1)
-my_group.permissions.add(25)    auth_permission表中的权限id
+my_group.permissions.add(25)    auth_permission表中的权限idmy
 my_group.permissions.all()
 
 查询用户所有权限
-list(UserProfile.objects.get(id=3).get_all_permissions())
+list(UserProfile.objects.get(id=1).get_all_permissions())
 ['authtoken.add_token']
 
 view.py

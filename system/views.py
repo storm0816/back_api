@@ -5,14 +5,16 @@ from user.models import Role
 from .models import Menu
 from django.contrib.auth.models import Permission
 from user.serializers import UserSerializer, RoleSerializer
-from .serializers import MenuSerializer, PermissionSerializer
+from .serializers import MenuSerializer, MenuGetSerializer, PermissionSerializer
 from extend.MyPageNumber import MyPageNumber
 #处理put请求
 from django.http import QueryDict
 # 临时数据
 from extend.data import *
 from django.contrib.auth.decorators import permission_required
-from extend.base import method_decorator_adaptor, find , abridge
+from extend.base import method_decorator_adaptor, find, abridge
+from rest_framework import generics, status
+from datetime import datetime
 
 
 
@@ -58,17 +60,22 @@ class MenuUserList2(APIView):
         menutree_list = []
         try:
             user_query = User.objects.get(id=userid)
+            print(user_query)
             role_query = user_query.groups.all().values_list('id', flat=True)
             role_list = list(role_query)
+            print(role_list)
             menu_query = Menu.objects.filter(parentId=0).order_by("id")
             menu_ser = MenuSerializer(instance=menu_query, many=True)
+            print(menu_ser.data)
             for roleid in role_list:
                 role = Role.objects.filter(pk=roleid).first()
                 perm_query = role.permissions.all().values_list('id', flat=True)
                 perm_list = list(perm_query)
+                print(perm_list)
                 for permissionId in perm_list:
                     menu_query = Menu.objects.filter(permissionId=permissionId).values_list('code', flat=True)
                     menu_code = list(menu_query)[0]
+                    print(menu_code)
                     button_list.append(menu_code)
                     # 过滤数据中是否存在menu_code关键字
                     menu_find = find(menu_code, menu_ser.data)
@@ -91,7 +98,8 @@ class MenuUserList2(APIView):
 
 # 查询用户信息列表
 class UserSearchView(APIView):
-    @method_decorator_adaptor(permission_required, 'system.del_menu')
+    @method_decorator_adaptor(permission_required, 'user.view_userprofile', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -384,31 +392,23 @@ class MenuAddUpdateView(APIView):
         put = QueryDict(request.body)
         put_str = list(put.items())[0][0]  # 将获取的QueryDict对象转换为str 类型
         put_dict = eval(put_str)  # 将str类型转换为字典类型
-        if 'name' in request.data:
-            id = put_dict.get("id")  # 获取传递参数
-            print('更新用户给ID：', id)
-            name = put_dict.get('name')
-            if 'remark' in request.data:
-                remark = put_dict.get('remark')
-                try:
-                    Role.objects.filter(pk=id).update(name=name, remark=remark)
-                except Exception as ex:
-                    msg = "更新失败: {ex}".format(ex=ex)
-                    re_data['code'] = 40000
-                re_data['message'] = msg
-                return JsonResponse(re_data, safe=False)
-            else:
-                try:
-                    Role.objects.filter(pk=id).update(name=name)
-                except Exception as ex:
-                    msg = "更新失败: {ex}".format(ex=ex)
-                    re_data['code'] = 40000
-                re_data['message'] = msg
-                return JsonResponse(re_data, safe=False)
-        else:
-            msg = '更新失败，参数异常'
+        id = put_dict.get("id")  # 获取传递参数
+        print('更新用户给ID：', id)
+        name = put_dict.get('name', None)
+        code = put_dict.get('code', None)
+        type = put_dict.get('type', None)
+        url = put_dict.get('url', None)
+        icon = put_dict.get('icon', None)
+        sort = put_dict.get('sort', None)
+        remark = put_dict.get('remark', None)
+        permissionId= put_dict.get('permissionId', None)
+        try:
+            Menu.objects.filter(pk=id).update(name=name, remark=remark, code=code, type=type,
+                                              url=url, icon=icon, sort=sort, permissionId=permissionId, updateDate=datetime.now())
+        except Exception as ex:
+            msg = "更新失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
-            re_data['message'] = msg
+        re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
 
@@ -422,7 +422,7 @@ class MenuGetDelView(APIView):
         print('查询菜单ID：', id)
         try:
             menu_list = Menu.objects.filter(pk=id).first()
-            menu_ser = MenuSerializer(menu_list)
+            menu_ser = MenuGetSerializer(menu_list)
             re_data['data'] = menu_ser.data
         except Exception as ex:
             msg = "查询失败: {ex}".format(ex=ex)
@@ -634,15 +634,12 @@ class RoleMenuSaveView(APIView):
             botton_list = list(botton_query)
             # 取交集，得到所需的按钮权限list
             menu_list = list(set(post_list).intersection(set(botton_list)))
-            print(menu_list)
             # 按钮对应的权限id
             per_list = []
             for menu in menu_list:
                 perid_query = Menu.objects.filter(pk=menu).values_list('permissionId')
                 perid = list(perid_query)[0][0]
-                print(perid)
                 per_list.append(perid)
-            print(per_list)
             # 给对应角色赋予权限
             role = Role.objects.get(pk=id)
             # 先清空角色权限，再赋予

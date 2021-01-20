@@ -2,8 +2,11 @@ from django.shortcuts import render
 from rest_framework_jwt.views import APIView
 from django.http import JsonResponse
 from extend.MyPageNumber import MyPageNumber
-from .models import Item, Function, Asset
-from .serializers import ItemSerializer, FunctionSerializer, ItemFunctionListSerializer, AssetSerializer
+from .models import Item, Function, Asset, Domain
+from .serializers import ItemSerializer, FunctionSerializer, ItemFunctionListSerializer, AssetSerializer, \
+    DomainSerializer
+from datetime import datetime
+import re
 #处理put请求
 from django.http import QueryDict
 # Create your views here.
@@ -97,7 +100,7 @@ class ItemAddUpdateView(APIView):
             remark = put_dict.get("remark", None)
             # 更新数据
             try:
-                Item.objects.filter(pk=id).update(name=name, status=status, remark=remark)
+                Item.objects.filter(pk=id).update(name=name, status=status, remark=remark, updateDate=datetime.now())
             except Exception as ex:
                 msg = "更新失败: {ex}".format(ex=ex)
                 re_data['code'] = 40000
@@ -250,7 +253,7 @@ class FunctionAddUpdateView(APIView):
             # 更新数据
             try:
                 item = Item.objects.filter(pk=itemId).first()
-                Function.objects.filter(pk=id).update(name=name, itemId=item, path=path)
+                Function.objects.filter(pk=id).update(name=name, itemId=item, path=path, updateDate=datetime.now())
             except Exception as ex:
                 msg = "更新失败: {ex}".format(ex=ex)
                 re_data['code'] = 40000
@@ -316,7 +319,26 @@ class ItemFunctionListView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-# 查询谁被列表
+# 查询所有正常项目和功能
+class ItemAssetListView(APIView):
+    def get(self, request, itemid, *args, **kwargs,):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "查询成功"
+                   }
+        print('正常分类和标签')
+        try:
+            asset_query = Asset.objects.filter(itemId=itemid).order_by("id")
+            asset_ser = AssetSerializer(asset_query, many=True)
+            re_data['data'] = asset_ser.data
+        except Exception as ex:
+            msg = "查询失败: {ex}".format(ex=ex)
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
+
+
+# 查询设备列表
 class AssetSearchView(APIView):
 
     def post(self, request,  *args, **kwargs,):
@@ -420,7 +442,7 @@ class AssetAddUpdateView(APIView):
             try:
                 item_query = Item.objects.filter(pk=itemId).first()
                 Asset.objects.filter(pk=id).update(hostname=hostname, lanip=lanip, wanip=wanip, status=status,
-                                           functionIds=functionIds, summary=summary, itemId=item_query)
+                                           functionIds=functionIds, summary=summary, itemId=item_query, updateDate=datetime.now())
             except Exception as ex:
                 msg = "更新失败: {ex}".format(ex=ex)
                 re_data['code'] = 40000
@@ -459,6 +481,173 @@ class AssetGetDelView(APIView):
             Asset.objects.filter(pk=id).delete()
         except Exception as ex:
             msg = "删除失败: {ex}".format(ex=ex)
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
+
+
+# 查询设备列表
+class DomainSearchView(APIView):
+
+    def post(self, request,  *args, **kwargs,):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "查询成功"
+                   }
+        '''
+        { code: 1, name: '设备名称' },
+        { code: 2, name: '内网IP' },
+        { code: 3, name: '外网IP' },
+        '''
+        query_select = {1: 'name__contains'}
+        if 'current' in request.data and 'size' in request.data:
+            # params修改为可写状态
+            request.query_params._mutable = True
+            current = request.data['current']
+            size = request.data['size']
+            name = request.data.get('name', None)
+            itemId = request.data.get('itemId', None)
+            search_dict = dict()
+            if name:
+                search_dict[query_select[1]] = name
+            if itemId and len(itemId):
+                search_dict['itemId'] = itemId
+            if name or itemId:
+                domain_query = Domain.objects.filter(**search_dict).order_by("id")
+            else:
+                domain_query = Domain.objects.all().order_by("id")
+            # 将自选写入params中
+            request.query_params.setlist('current', [current])
+            request.query_params.setlist('size', [size])
+            # 总数
+            total = domain_query.count()
+            page = MyPageNumber()
+            page_Lable = page.paginate_queryset(queryset=domain_query, request=request, view=self)
+            asset_ser = DomainSerializer(instance=page_Lable, many=True)
+            print(asset_ser.data)
+            re_data['data']['total'] = total
+            re_data['data']['records'] = asset_ser.data
+        else:
+            re_data['code'] = 40000
+            re_data['message'] = '查询失败'
+        return JsonResponse(re_data, safe=False)
+
+
+# 添加修改域名信息
+class DomainAddUpdateView(APIView):
+    def post(self, request, *args, **kwargs):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "添加成功"
+                   }
+        msg = "添加失败，参数异常"
+        print(request.data)
+        if 'name' in request.data and 'itemId' in request.data:
+            name = request.data.get('name', None)
+            itemId = request.data.get('itemId', None)
+            cname = request.data.get('cname', None)
+            elb = request.data.get('elb', None)
+            assetIds = request.data.get('assetIds', None)
+            remark = request.data.get('remark', None)
+            try:
+                item_query = Item.objects.filter(pk=itemId).first()
+                sql = Domain.objects.create(name=name, itemId=item_query, cname=cname, elb=elb,
+                                            assetIds=assetIds, remark=remark)
+                sql.save()
+            except Exception as ex:
+                msg = "添加失败: {ex}".format(ex=ex)
+                print(msg)
+                re_data['code'] = 40000
+                re_data['message'] = msg
+        else:
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
+
+    def put(self, request, *args, **kwargs):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "添加成功"
+                   }
+        msg = "更新成功"
+        if 'name' in request.data and 'itemId':
+            id = request.data['id']
+            name = request.data.get('name', None)
+            itemId = request.data.get('itemId', None)
+            cname = request.data.get('cname', None)
+            elb = request.data.get('elb', None)
+            assetIds = request.data.get('assetIds', None)
+            if len(assetIds) == 0:
+                assetIds=[]
+            remark = request.data.get('remark', None)
+            # 更新数据
+            try:
+                item_query = Item.objects.filter(pk=itemId).first()
+                Domain.objects.filter(pk=id).update(name=name, itemId=item_query, cname=cname, elb=elb,
+                                           assetIds=assetIds, remark=remark)
+            except Exception as ex:
+                msg = "更新失败: {ex}".format(ex=ex)
+                re_data['code'] = 40000
+            re_data['message'] = msg
+            return JsonResponse(re_data, safe=False)
+        else:
+            msg = '更新失败，参数异常'
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
+
+
+# 获取删除设备信息
+class DomainGetDelView(APIView):
+    def get(self, request, id,  *args, **kwargs,):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "查询成功"
+                   }
+        try:
+            domain_query = Domain.objects.filter(pk=id).first()
+            domain_ser = DomainSerializer(domain_query)
+            re_data['data'] = domain_ser.data
+        except Exception as ex:
+            msg = "查询失败: {ex}".format(ex=ex)
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
+
+    def delete(self, request, id,  *args, **kwargs,):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "删除成功"
+                   }
+        try:
+            Domain.objects.filter(pk=id).delete()
+        except Exception as ex:
+            msg = "删除失败: {ex}".format(ex=ex)
+            re_data['code'] = 40000
+            re_data['message'] = msg
+        return JsonResponse(re_data, safe=False)
+
+
+
+# 查询设备列表
+class DomainAssetListView(APIView):
+
+    def get(self, request, id,  *args, **kwargs,):
+        re_data = {"data": {},
+                   "code": 20000,
+                   "message": "查询成功"
+                   }
+        asset_data = []
+        try:
+            assetIds = Domain.objects.get(pk=id).assetIds
+            asset_list = re.findall(r"\d", assetIds)
+            for assetId in asset_list:
+                asset_query = Asset.objects.filter(id=int(assetId))
+                asset_ser = AssetSerializer(instance=asset_query, many=True)
+                asset_data.append(asset_ser.data[0])
+            re_data['data']['assetList'] = asset_data
+        except Exception as ex:
+            msg = "查询失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)

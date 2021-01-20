@@ -13,6 +13,13 @@ class RoleSerializer(serializers.ModelSerializer):
 
 
 # 目录菜单列表
+class MenuGetSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Menu
+        fields = ['id', 'parentId', 'name', 'url', 'code', 'type', 'icon', 'sort', 'createDate', 'updateDate']
+
+
 class MenuSerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
 

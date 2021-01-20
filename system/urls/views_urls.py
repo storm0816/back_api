@@ -7,7 +7,7 @@ app_name = "system"
 
 urlpatterns = [
     path(r'menu/user/<int:userid>', views.MenuUserList.as_view(), name='menu_list'),
-    path(r'menu/user2/<int:userid>', views.MenuUserList2.as_view(), name='menu_list'),
+    path(r'menu/user2/<int:userid>', views.MenuUserList2.as_view(), name='menu_list2'),
     path(r'user/search/', views.UserSearchView.as_view(), name='user_search'),
     path(r'user/', views.UserAddUpdateView.as_view(), name='user_add_update'),
     path(r'user/<int:userid>', views.UserGetDelView.as_view(), name='user_get_update'),

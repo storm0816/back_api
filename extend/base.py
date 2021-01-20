@@ -15,7 +15,7 @@ def method_decorator_adaptor(adapt_to, *decorator_args, **decorator_kwargs):
     return decorator_outer
 
 
-def find(target, dictData, notFound='没找到'):
+def find(target, dictData, notFound=0):
     # ordereddict 有序字典
     queue = dictData
     for i in range(len(queue)):
