@@ -13,7 +13,7 @@ from django.http import QueryDict
 from extend.data import *
 from django.contrib.auth.decorators import permission_required
 from extend.base import method_decorator_adaptor, find, abridge
-from rest_framework import generics, status
+from rest_framework import status
 from datetime import datetime
 
 
@@ -60,22 +60,17 @@ class MenuUserList2(APIView):
         menutree_list = []
         try:
             user_query = User.objects.get(id=userid)
-            print(user_query)
             role_query = user_query.groups.all().values_list('id', flat=True)
             role_list = list(role_query)
-            print(role_list)
             menu_query = Menu.objects.filter(parentId=0).order_by("id")
             menu_ser = MenuSerializer(instance=menu_query, many=True)
-            print(menu_ser.data)
             for roleid in role_list:
                 role = Role.objects.filter(pk=roleid).first()
                 perm_query = role.permissions.all().values_list('id', flat=True)
                 perm_list = list(perm_query)
-                print(perm_list)
                 for permissionId in perm_list:
                     menu_query = Menu.objects.filter(permissionId=permissionId).values_list('code', flat=True)
                     menu_code = list(menu_query)[0]
-                    print(menu_code)
                     button_list.append(menu_code)
                     # 过滤数据中是否存在menu_code关键字
                     menu_find = find(menu_code, menu_ser.data)
@@ -146,6 +141,8 @@ class UserSearchView(APIView):
 
 # 添加与更新用户信息
 class UserAddUpdateView(APIView):
+    @method_decorator_adaptor(permission_required, 'user.add_userprofile', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -173,6 +170,8 @@ class UserAddUpdateView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'user.change_userprofile', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def put(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -220,6 +219,8 @@ class UserAddUpdateView(APIView):
 
 # 获取与删除用户信息
 class UserGetDelView(APIView):
+    @method_decorator_adaptor(permission_required, 'user.view_userprofile', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, userid,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -236,6 +237,8 @@ class UserGetDelView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'user.delete_userprofile', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def delete(self, request, userid,  *args, **kwargs,):
         print('删除用户id:', userid)
         re_data = {"data": {},
@@ -253,7 +256,8 @@ class UserGetDelView(APIView):
 
 # 更新用户密码
 class UserPasswordView(APIView):
-
+    @method_decorator_adaptor(permission_required, 'user.change_userprofile', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def put(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -287,6 +291,8 @@ class UserPasswordView(APIView):
 
 # 获取用户角色列表
 class UserRoleListView(APIView):
+    @method_decorator_adaptor(permission_required, 'user.view_userprofile', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id, *args, **kwargs):
         print('获取{0}用户角色信息'.format(id))
         re_data = {"data": {},
@@ -294,7 +300,7 @@ class UserRoleListView(APIView):
                    "message": "查询用户角色成功"
                    }
         try:
-            user_query = User.objects.get(id = id)
+            user_query = User.objects.get(id=id)
             role_query = user_query.groups.all().values_list('id',flat=True)
             role_list = list(role_query)
             re_data['data'] = role_list
@@ -307,6 +313,8 @@ class UserRoleListView(APIView):
 
 # 更新用户角色列表
 class UserRoleSaveView(APIView):
+    @method_decorator_adaptor(permission_required, 'user.add_userprofile', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, id, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -330,7 +338,8 @@ class UserRoleSaveView(APIView):
 
 # 查询菜单列表
 class MenuSearchView(APIView):
-
+    @method_decorator_adaptor(permission_required, 'system.view_menu', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -343,17 +352,18 @@ class MenuSearchView(APIView):
                 # 过滤掉不是第一的目录
                 menu_query = Menu.objects.filter(parentId=0).order_by("id")
             menu_ser = MenuSerializer(instance=menu_query, many=True)
+            re_data['data'] = menu_ser.data
         except Exception as ex:
             msg = "添加失败: {ex}".format(ex=ex)
             re_data['code'] = 40000
             re_data['message'] = msg
-        re_data['data'] = menu_ser.data
-
         return JsonResponse(re_data, safe=False)
 
 
 # 添加与更新菜单
 class MenuAddUpdateView(APIView):
+    @method_decorator_adaptor(permission_required, 'system.add_menu', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -383,6 +393,8 @@ class MenuAddUpdateView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'system.change_menu', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def put(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -414,6 +426,8 @@ class MenuAddUpdateView(APIView):
 
 # 获取与删除角色信息
 class MenuGetDelView(APIView):
+    @method_decorator_adaptor(permission_required, 'system.view_menu', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -430,6 +444,8 @@ class MenuGetDelView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'system.delete_menu', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def delete(self, request, id,  *args, **kwargs,):
         print('删除菜单id:', id)
         re_data = {"data": {},
@@ -447,7 +463,8 @@ class MenuGetDelView(APIView):
 
 # 查询角色信息列表
 class RoleSearchView(APIView):
-
+    @method_decorator_adaptor(permission_required, 'user.view_role', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -485,6 +502,8 @@ class RoleSearchView(APIView):
 
 # 添加与更新角色信息
 class RoleAddUpdateView(APIView):
+    @method_decorator_adaptor(permission_required, 'user.add_role', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -517,6 +536,8 @@ class RoleAddUpdateView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'user.change_role', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def put(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -556,6 +577,8 @@ class RoleAddUpdateView(APIView):
 
 # 获取与删除角色信息
 class RoleGetDelView(APIView):
+    @method_decorator_adaptor(permission_required, 'user.view_role', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -572,6 +595,8 @@ class RoleGetDelView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'user.delete_role', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def delete(self, request, id,  *args, **kwargs,):
         print('删除角色id:', id)
         re_data = {"data": {},
@@ -589,6 +614,8 @@ class RoleGetDelView(APIView):
 
 # 获取角色菜单列表
 class RoleMenuListView(APIView):
+    @method_decorator_adaptor(permission_required, 'user.view_role', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -620,6 +647,8 @@ class RoleMenuListView(APIView):
 
 # 更新角色菜单列表
 class RoleMenuSaveView(APIView):
+    @method_decorator_adaptor(permission_required, 'user.change_role', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,

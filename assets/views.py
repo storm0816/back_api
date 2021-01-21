@@ -9,12 +9,17 @@ from datetime import datetime
 import re
 #处理put请求
 from django.http import QueryDict
+
+from django.contrib.auth.decorators import permission_required
+from extend.base import method_decorator_adaptor
+from rest_framework import status
 # Create your views here.
 
 
 # 查询项目列表
 class ItemSearchView(APIView):
-
+    @method_decorator_adaptor(permission_required, 'assets.view_item', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -61,6 +66,8 @@ class ItemSearchView(APIView):
 
 # 添加修改项目信息
 class ItemAddUpdateView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.add_item', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -70,9 +77,10 @@ class ItemAddUpdateView(APIView):
         if 'name' in request.data and 'status' in request.data:
             name = request.data.get('name', None)
             status = request.data.get('status', None)
+            owner = request.data.get('owner', None)
             remark = request.data.get('remark', None)
             try:
-                sql = Item.objects.create(name=name, status=status, remark=remark)
+                sql = Item.objects.create(name=name, owner=owner, status=status, remark=remark)
                 sql.save()
             except Exception as ex:
                 msg = "添加失败: {ex}".format(ex=ex)
@@ -83,6 +91,8 @@ class ItemAddUpdateView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'assets.change_item', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def put(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -97,10 +107,11 @@ class ItemAddUpdateView(APIView):
             print('更新ID：', id)
             name = put_dict.get("name", None)
             status = put_dict.get("status", None)
+            owner = put_dict.get("owner", None)
             remark = put_dict.get("remark", None)
             # 更新数据
             try:
-                Item.objects.filter(pk=id).update(name=name, status=status, remark=remark, updateDate=datetime.now())
+                Item.objects.filter(pk=id).update(name=name, owner=owner, status=status, remark=remark, updateDate=datetime.now())
             except Exception as ex:
                 msg = "更新失败: {ex}".format(ex=ex)
                 re_data['code'] = 40000
@@ -115,12 +126,13 @@ class ItemAddUpdateView(APIView):
 
 # 查询删除项目信息
 class ItemGetDelView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.view_item', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
                    "message": "查询成功"
                    }
-        print('查询ID：', id)
         try:
             item_list = Item.objects.filter(pk=id).first()
             item_list_ser = ItemSerializer(item_list)
@@ -131,6 +143,8 @@ class ItemGetDelView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'assets.delete_item', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def delete(self, request, id,  *args, **kwargs,):
         print('删除:', id)
         re_data = {"data": {},
@@ -148,6 +162,8 @@ class ItemGetDelView(APIView):
 
 # 查询所有正常状态的项目
 class ItemListView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.view_item', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -166,6 +182,8 @@ class ItemListView(APIView):
 
 #查询功能列表
 class FunctionSearchView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.delete_function', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -211,6 +229,8 @@ class FunctionSearchView(APIView):
 
 # 添加修改标签信息
 class FunctionAddUpdateView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.add_function', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -236,6 +256,8 @@ class FunctionAddUpdateView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'assets.change_function', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def put(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -268,6 +290,8 @@ class FunctionAddUpdateView(APIView):
 
 # 查询删除功能信息
 class FunctionGetDelView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.view_function', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -284,6 +308,8 @@ class FunctionGetDelView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'assets.delete_function', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def delete(self, request, id,  *args, **kwargs,):
         print('标签删除:', id)
         re_data = {"data": {},
@@ -302,6 +328,8 @@ class FunctionGetDelView(APIView):
 
 # 查询所有正常项目和功能
 class ItemFunctionListView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.view_function', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -321,6 +349,8 @@ class ItemFunctionListView(APIView):
 
 # 查询所有正常项目和功能
 class ItemAssetListView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.view_function', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, itemid, *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -340,7 +370,8 @@ class ItemAssetListView(APIView):
 
 # 查询设备列表
 class AssetSearchView(APIView):
-
+    @method_decorator_adaptor(permission_required, 'assets.view_asset', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -391,6 +422,8 @@ class AssetSearchView(APIView):
 
 # 添加修改设备信息
 class AssetAddUpdateView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.add_asset', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -420,6 +453,8 @@ class AssetAddUpdateView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'assets.change_asset', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def put(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -457,6 +492,8 @@ class AssetAddUpdateView(APIView):
 
 # 获取删除设备信息
 class AssetGetDelView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.view_asset', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -472,6 +509,8 @@ class AssetGetDelView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'assets.delete_asset', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def delete(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -488,7 +527,8 @@ class AssetGetDelView(APIView):
 
 # 查询设备列表
 class DomainSearchView(APIView):
-
+    @method_decorator_adaptor(permission_required, 'assets.view_domain', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -535,6 +575,8 @@ class DomainSearchView(APIView):
 
 # 添加修改域名信息
 class DomainAddUpdateView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.add_domain', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def post(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -564,6 +606,8 @@ class DomainAddUpdateView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'assets.change_domain', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def put(self, request, *args, **kwargs):
         re_data = {"data": {},
                    "code": 20000,
@@ -599,6 +643,8 @@ class DomainAddUpdateView(APIView):
 
 # 获取删除设备信息
 class DomainGetDelView(APIView):
+    @method_decorator_adaptor(permission_required, 'assets.view_domain', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -614,6 +660,8 @@ class DomainGetDelView(APIView):
             re_data['message'] = msg
         return JsonResponse(re_data, safe=False)
 
+    @method_decorator_adaptor(permission_required, 'assets.delete_domain', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def delete(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,
@@ -628,10 +676,10 @@ class DomainGetDelView(APIView):
         return JsonResponse(re_data, safe=False)
 
 
-
 # 查询设备列表
 class DomainAssetListView(APIView):
-
+    @method_decorator_adaptor(permission_required, 'assets.view_domain', login_url=None,
+                              raise_exception=status.HTTP_403_FORBIDDEN)
     def get(self, request, id,  *args, **kwargs,):
         re_data = {"data": {},
                    "code": 20000,

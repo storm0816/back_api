@@ -12,6 +12,7 @@ class Item(models.Model):
     name = models.CharField(max_length=128, unique=True, verbose_name='项目名')
     remark = models.CharField(max_length=128,  blank=True, null=True, verbose_name='备注')
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=0, verbose_name='状态')
+    owner = models.CharField(max_length=64, blank=True, null=True,  verbose_name='维护人')
     createDate = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     updateDate = models.DateTimeField(auto_now=True, verbose_name='最后更新时间')
 
@@ -27,7 +28,7 @@ class Item(models.Model):
 class Function(models.Model):
     name = models.CharField(max_length=128, unique=True, verbose_name='功能名')
     itemId = models.ForeignKey(to=Item, verbose_name="项目ID", on_delete=models.CASCADE)
-    path = models.CharField(max_length=128, blank=True, null=True,verbose_name='程序路劲')
+    path = models.CharField(max_length=128, blank=True, null=True, verbose_name='程序路劲')
     createDate = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     updateDate = models.DateTimeField(auto_now=True, verbose_name='最后更新时间')
 

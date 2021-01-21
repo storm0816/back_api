@@ -6,7 +6,7 @@ import json
 class ItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Item
-        fields = ['id', 'name', 'remark', 'status', 'createDate', 'updateDate']
+        fields = ['id', 'name', 'owner', 'remark', 'status', 'createDate', 'updateDate']
 
 
 '''
