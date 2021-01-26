@@ -82,6 +82,8 @@ class MenuUserList2(APIView):
                         pass
                 # 去重button_list
                 button_list = list(set(button_list))
+                # 通过sort进行排序
+                menutree_list.sort(key=lambda x:x['sort'])
                 re_data['data']['buttonList'] = button_list
                 re_data['data']['menuTreeList'] = menutree_list
         except Exception as ex:

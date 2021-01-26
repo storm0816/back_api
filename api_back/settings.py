@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'system.apps.SystemConfig',
     'article.apps.ArticleConfig',
     'assets.apps.AssetsConfig',
+    'dashboard.apps.DashboardConfig',
     'corsheaders',  # 解决api跨域请求
     'rest_framework',
 ]

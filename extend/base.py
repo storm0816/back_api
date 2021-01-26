@@ -29,7 +29,10 @@ def find(target, dictData, notFound=0):
 def abridge(dictData):
     queue = dictData
     for data in queue['children']:
-        # 清空按钮信息
+        # 清空二级目录下的按钮信息
         if len(data['children']) > 0:
             data['children'] = ''
+        # 清空一级目录下的按钮信息
+        if data['type'] == 3:
+            queue['children'] = ''
     return queue
