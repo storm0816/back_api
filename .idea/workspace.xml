@@ -2,22 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7e9a943-c776-4138-9446-ad0195b723c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/urls/views_urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_back/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_back/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extend/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/extend/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/all.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/all.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/system/urls/views_urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/system/urls/views_urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/system/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/system/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +79,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/dashboard" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -227,7 +212,7 @@
       <workItem from="1609116571420" duration="21865000" />
       <workItem from="1609307292409" duration="34285000" />
       <workItem from="1609988296489" duration="55130000" />
-      <workItem from="1610437238399" duration="78508000" />
+      <workItem from="1610437238399" duration="78805000" />
     </task>
     <task id="LOCAL-00001" summary="创建分类表">
       <created>1608711636656</created>
@@ -299,7 +284,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611191353242</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="基本功能完成&#10;系统管理与资产原理，目录与权限相关联。">
+      <created>1611627224918</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1611627224918</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,17 +307,18 @@
     <MESSAGE value="设备栏中完成了：设备、项目、功能页面&#10;&#10;域名表结构已创建" />
     <MESSAGE value="权限、设备&#10;开发完毕&#10;下一步，权限控制" />
     <MESSAGE value="权限控制已完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="权限控制已完成" />
+    <MESSAGE value="基本功能完成&#10;系统管理与资产原理，目录与权限相关联。" />
+    <option name="LAST_COMMIT_MESSAGE" value="基本功能完成&#10;系统管理与资产原理，目录与权限相关联。" />
   </component>
   <component name="WindowStateProjectService">
     <state x="104" y="48" width="1071" height="752" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609378158527">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="104" y="48" width="1071" height="752" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1609378158527" />
-    <state x="229" y="25" key="CommitChangelistDialog2" timestamp="1611191352759">
+    <state x="229" y="25" key="CommitChangelistDialog2" timestamp="1611627224342">
       <screen x="0" y="25" width="1280" height="702" />
     </state>
-    <state x="229" y="25" key="CommitChangelistDialog2/0.25.1280.702@0.25.1280.702" timestamp="1611191352759" />
+    <state x="229" y="25" key="CommitChangelistDialog2/0.25.1280.702@0.25.1280.702" timestamp="1611627224342" />
     <state x="229" y="25" key="CommitChangelistDialog2/0.25.1280.703@0.25.1280.703" timestamp="1610521484931" />
     <state width="1280" height="438" key="DebuggerActiveHint" timestamp="1610430772071">
       <screen x="0" y="25" width="1280" height="702" />
@@ -396,18 +389,18 @@
       <screen x="0" y="25" width="1280" height="702" />
     </state>
     <state x="352" y="96" key="MultipleFileMergeDialog/0.25.1280.702@0.25.1280.702" timestamp="1610505493480" />
-    <state x="149" y="25" width="982" height="702" key="SettingsEditor" timestamp="1610517602678">
-      <screen x="0" y="25" width="1280" height="703" />
+    <state x="149" y="25" width="982" height="702" key="SettingsEditor" timestamp="1611627453932">
+      <screen x="0" y="25" width="1280" height="702" />
     </state>
     <state x="149" y="36" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1609384014163" />
-    <state x="149" y="25" width="982" height="702" key="SettingsEditor/0.25.1280.702@0.25.1280.702" timestamp="1610499529064" />
+    <state x="149" y="25" width="982" height="702" key="SettingsEditor/0.25.1280.702@0.25.1280.702" timestamp="1611627453932" />
     <state x="149" y="25" key="SettingsEditor/0.25.1280.703@0.25.1280.703" timestamp="1610517602678" />
     <state x="149" y="25" width="982" height="706" key="SettingsEditor/0.25.1280.706@0.25.1280.706" timestamp="1608705285671" />
     <state x="149" y="25" key="SettingsEditor/0.25.1280.708@0.25.1280.708" timestamp="1610515419156" />
-    <state x="240" y="113" key="Vcs.Push.Dialog.v2" timestamp="1611191365119">
+    <state x="240" y="113" key="Vcs.Push.Dialog.v2" timestamp="1611627264208">
       <screen x="0" y="25" width="1280" height="702" />
     </state>
-    <state x="240" y="113" key="Vcs.Push.Dialog.v2/0.25.1280.702@0.25.1280.702" timestamp="1611191365119" />
+    <state x="240" y="113" key="Vcs.Push.Dialog.v2/0.25.1280.702@0.25.1280.702" timestamp="1611627264208" />
     <state x="240" y="113" key="Vcs.Push.Dialog.v2/0.25.1280.703@0.25.1280.703" timestamp="1610521559278" />
     <state width="640" height="351" key="XDebugger.FullValuePopup" timestamp="1610430707255">
       <screen x="0" y="25" width="1280" height="702" />
@@ -435,11 +428,11 @@
       <screen x="0" y="25" width="1280" height="702" />
     </state>
     <state x="100" y="125" width="1080" height="502" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.25.1280.702@0.25.1280.702" timestamp="1610505938054" />
-    <state x="317" y="226" key="com.intellij.ide.util.TipDialog" timestamp="1610437238559">
+    <state x="317" y="226" key="com.intellij.ide.util.TipDialog" timestamp="1611627477139">
       <screen x="0" y="25" width="1280" height="702" />
     </state>
     <state x="317" y="229" key="com.intellij.ide.util.TipDialog/0.0.1280.800@0.0.1280.800" timestamp="1609116572190" />
-    <state x="317" y="226" key="com.intellij.ide.util.TipDialog/0.25.1280.702@0.25.1280.702" timestamp="1610437238559" />
+    <state x="317" y="226" key="com.intellij.ide.util.TipDialog/0.25.1280.702@0.25.1280.702" timestamp="1611627477139" />
     <state x="317" y="226" key="com.intellij.ide.util.TipDialog/0.25.1280.703@0.25.1280.703" timestamp="1608705922508" />
     <state x="426" y="297" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1608711673166">
       <screen x="0" y="25" width="1280" height="702" />
