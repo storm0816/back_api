@@ -79,8 +79,9 @@ stopsignal=QUIT
 
 
 #五、插入初始化数据
->python3 manage.py shell
->from user.models import UserProfile as user
+```
+python3 manage.py shell
+from user.models import UserProfile as user
 from user.models import Role as role
 my_role = role.objects.create(name='admin',remark='管理组')
 my_user = user.objects.get(id=1)
@@ -88,12 +89,13 @@ my_role.user_set.add(my_user)
 菜单数据
 Menu.objects.create(parentId=0,name='首页',url='/dashboard',code='dashboard',type=1,icon='el-icon-s-home',sort=1)
 Menu.objects.create(parentId=0,name='系统管理',url='/system',code='system',type=1,icon='el-icon-setting',sort=10)
->子菜单
+子菜单
 Menu.objects.create(parentId=2,name='用户管理',url='/system/user',code='user',type=2,icon='el-icon-user-solid',sort=1)
 Menu.objects.create(parentId=2,name='角色管理',url='/system/role',code='role',type=2,icon='el-icon-coin',sort=2)
 Menu.objects.create(parentId=2,name='菜单管理',url='/system/menu',code='menu',type=2,icon='el-icon-menu',sort=3)
-
->权限按钮，权限ID需要和auth_permission表中相关
+```
+权限按钮，权限ID需要和auth_permission表中相关
+```
 Menu.objects.create(parentId=3,name='user:view',code='user:view',type=3,sort=1,permissionId=28)
 Menu.objects.create(parentId=3,name='user:change',code='user:change',type=3,sort=2,permissionId=26)
 Menu.objects.create(parentId=3,name='user:add',code='user:add',type=3,sort=3,permissionId=25)
@@ -106,8 +108,9 @@ Menu.objects.create(parentId=5,name='menu:view',code='menu:view',type=3,sort=1,p
 Menu.objects.create(parentId=5,name='menu:change',code='menu:change',type=3,sort=2,permissionId=30)
 Menu.objects.create(parentId=5,name='menu:add',code='menu:add',type=3,sort=3,permissionId=29)
 Menu.objects.create(parentId=5,name='menu:delete',code='menu:delete',type=3,sort=4,permissionId=31)
-
->用户权限赋予
+```
+用户权限赋予
+```
 my_role.permissions.add(21)
 my_role.permissions.add(22)
 my_role.permissions.add(23)
@@ -120,30 +123,31 @@ my_role.permissions.add(29)
 my_role.permissions.add(30)
 my_role.permissions.add(31)
 my_role.permissions.add(32)
-
+```
 #问题
 django 2.和 python3   兼容性不足
 报错
->File "/usr/local/python3/lib/python3.7/site-packages/rest_framework_simplejwt/backends.py", line 44, in encode
+```
+File "/usr/local/python3/lib/python3.7/site-packages/rest_framework_simplejwt/backends.py", line 44, in encode
     return token.decode('utf-8')
 AttributeError: 'str' object has no attribute 'decode'
 
 
->vim /usr/local/python3/lib/python3.7/site-packages/rest_framework_simplejwt/backends.py
+vim /usr/local/python3/lib/python3.7/site-packages/rest_framework_simplejwt/backends.py
 注释掉
->return token.decode('utf-8')
->return token
-
-
->File "/usr/local/python3/lib/python3.7/site-packages/django/db/backends/mysql/operations.py", line 146, in last_executed_query
+return token.decode('utf-8')
+return token
+```
+```
+File "/usr/local/python3/lib/python3.7/site-packages/django/db/backends/mysql/operations.py", line 146, in last_executed_query
     query = query.decode(errors='replace')
 AttributeError: 'str' object has no attribute 'decode'
 
->vim /usr/local/python3/lib/python3.7/site-packages/django/db/backends/mysql/operations.py
+vim /usr/local/python3/lib/python3.7/site-packages/django/db/backends/mysql/operations.py
 注释掉
 query = query.decode(errors='replace')
 query = query.encode(errors='replace')
-
+```
 
 
 

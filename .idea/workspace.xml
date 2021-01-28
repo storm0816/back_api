@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7e9a943-c776-4138-9446-ad0195b723c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -214,7 +213,7 @@
       <workItem from="1609307292409" duration="34285000" />
       <workItem from="1609988296489" duration="55130000" />
       <workItem from="1610437238399" duration="78805000" />
-      <workItem from="1611627477577" duration="3058000" />
+      <workItem from="1611627477577" duration="3902000" />
     </task>
     <task id="LOCAL-00001" summary="创建分类表">
       <created>1608711636656</created>
@@ -300,7 +299,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611627605324</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="完成数据初始化">
+      <created>1611798821379</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1611798821379</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,17 +323,18 @@
     <MESSAGE value="权限、设备&#10;开发完毕&#10;下一步，权限控制" />
     <MESSAGE value="权限控制已完成" />
     <MESSAGE value="基本功能完成&#10;系统管理与资产原理，目录与权限相关联。" />
-    <option name="LAST_COMMIT_MESSAGE" value="基本功能完成&#10;系统管理与资产原理，目录与权限相关联。" />
+    <MESSAGE value="完成数据初始化" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成数据初始化" />
   </component>
   <component name="WindowStateProjectService">
     <state x="104" y="48" width="1071" height="752" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609378158527">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="104" y="48" width="1071" height="752" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1609378158527" />
-    <state x="229" y="25" key="CommitChangelistDialog2" timestamp="1611627604656">
+    <state x="229" y="25" key="CommitChangelistDialog2" timestamp="1611798820697">
       <screen x="0" y="25" width="1280" height="702" />
     </state>
-    <state x="229" y="25" key="CommitChangelistDialog2/0.25.1280.702@0.25.1280.702" timestamp="1611627604656" />
+    <state x="229" y="25" key="CommitChangelistDialog2/0.25.1280.702@0.25.1280.702" timestamp="1611798820697" />
     <state x="229" y="25" key="CommitChangelistDialog2/0.25.1280.703@0.25.1280.703" timestamp="1610521484931" />
     <state width="1280" height="438" key="DebuggerActiveHint" timestamp="1610430772071">
       <screen x="0" y="25" width="1280" height="702" />
@@ -406,10 +413,10 @@
     <state x="149" y="25" key="SettingsEditor/0.25.1280.703@0.25.1280.703" timestamp="1610517602678" />
     <state x="149" y="25" width="982" height="706" key="SettingsEditor/0.25.1280.706@0.25.1280.706" timestamp="1608705285671" />
     <state x="149" y="25" key="SettingsEditor/0.25.1280.708@0.25.1280.708" timestamp="1610515419156" />
-    <state x="240" y="113" key="Vcs.Push.Dialog.v2" timestamp="1611627613456">
+    <state x="240" y="113" key="Vcs.Push.Dialog.v2" timestamp="1611798837071">
       <screen x="0" y="25" width="1280" height="702" />
     </state>
-    <state x="240" y="113" key="Vcs.Push.Dialog.v2/0.25.1280.702@0.25.1280.702" timestamp="1611627613456" />
+    <state x="240" y="113" key="Vcs.Push.Dialog.v2/0.25.1280.702@0.25.1280.702" timestamp="1611798837071" />
     <state x="240" y="113" key="Vcs.Push.Dialog.v2/0.25.1280.703@0.25.1280.703" timestamp="1610521559278" />
     <state width="640" height="351" key="XDebugger.FullValuePopup" timestamp="1610430707255">
       <screen x="0" y="25" width="1280" height="702" />
